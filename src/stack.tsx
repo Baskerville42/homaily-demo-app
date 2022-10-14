@@ -1,9 +1,8 @@
 import React from 'react';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import ListScreen, { IListItem } from './screens/list';
-import {Item} from './item';
-
+import ListScreen, {IListItem} from './screens/list';
+import Item from './item';
 import {ThemeFont} from './components/typography';
 
 //
@@ -11,7 +10,7 @@ import {ThemeFont} from './components/typography';
 
 export type RootStackParamList = {
   ListScreen: undefined;
-  ItemScreen?: IListItem;
+  ItemScreen: IListItem;
 };
 
 const RootStack = createNativeStackNavigator<RootStackParamList>();
@@ -19,7 +18,7 @@ const RootStack = createNativeStackNavigator<RootStackParamList>();
 const Stack = () => {
   return (
     <RootStack.Navigator
-      initialRouteName="ListScreens"
+      initialRouteName="ListScreen"
       screenOptions={{
         headerShadowVisible: false,
         headerBackTitle: '',
@@ -28,7 +27,7 @@ const Stack = () => {
           ...(ThemeFont.medium as any),
         },
         contentStyle: {
-          backgroundColor: '#eee',
+          backgroundColor: '#F9F9F9',
         },
       }}>
       <RootStack.Screen
@@ -39,7 +38,7 @@ const Stack = () => {
       <RootStack.Screen
         name="ItemScreen"
         component={Item}
-        options={{title: 'Item'}}
+        options={({route}) => ({title: route.params.name})}
       />
     </RootStack.Navigator>
   );

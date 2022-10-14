@@ -1,43 +1,54 @@
-import React from 'react';
+import React, {memo} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import styled from '@emotion/native';
+import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+
 import {getImage} from '../../../utils/image';
 import {Typography} from '../../../components/typography';
 import {RootStackParamList} from '../../../stack';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import {IListItem} from '../index';
-import { Avatar } from '../../../components/avatar';
+import {Avatar} from '../../../components/avatar';
 
 //
 //
+
+type Props = {
+  item: IListItem;
+};
 
 const thumbnailSize = 600;
 
-export const ListItem: React.FC<{item: IListItem}> = ({item}) => {
+const ListItem: React.FC<Props> = ({item}) => {
   const nav =
     useNavigation<
       NativeStackNavigationProp<RootStackParamList, 'ListScreen'>
     >();
 
+  const handleNavigation = () => nav.navigate('ItemScreen', item);
+
   return (
-    <ListItemContainer onPress={() => nav.navigate('Itemscreen', item)}>
-      <Avatar style={styles.image} source={{uri: getImage(thumbnailSize, item.id)}} />
+    <ListItemContainer onPress={handleNavigation}>
+      <Avatar
+        style={styles.image}
+        source={{uri: getImage(thumbnailSize, item.id)}}
+      />
 
       <View style={styles.flex}>
         <Typography weight="medium">{item.name}</Typography>
-        {!item.salePrice ? (
-          <Typography style={item.salePrice ? styles.discounted : undefined}>SAR {item.price}</Typography>
-        ) : null}
 
-        {item.salePrice ? (
+        {item.salePrice && (
           <Typography color="#DA2121">
-            <Typography style={item.salePrice ? styles.discounted : undefined}>SAR {item.price}</Typography>
+            <Typography style={item.salePrice && styles.discounted}>
+              SAR {item.price}
+            </Typography>
             {'  '}SAR {item.salePrice}
           </Typography>
-        ) : null}
+        )}
 
-        <Typography fontSize={14} color="#545454">Brand: {item.name}</Typography>
+        <Typography fontSize={14} color="#545454">
+          Brand: {item.name}
+        </Typography>
       </View>
     </ListItemContainer>
   );
@@ -73,3 +84,5 @@ const styles = StyleSheet.create({
     color: '#DA2121',
   },
 });
+
+export default memo(ListItem);

@@ -1,16 +1,16 @@
 import React, {useState} from 'react';
-import {Dimensions, ScrollView, Text, View} from 'react-native';
-import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
-import {NativeStackNavigationProp} from '@react-navigation/native-stack';
+import {Dimensions, ScrollView} from 'react-native';
+import {RouteProp, useRoute} from '@react-navigation/native';
 import styled from '@emotion/native';
-
 import {faker} from '@faker-js/faker';
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
+
 import {RootStackParamList} from './stack';
-import {getImage} from './utils/image';
-import {Container} from './components/container';
 import {Typography} from './components/typography';
-import {DetailsLine} from './components/details-line';
+import {Container} from './components/container';
+import {getImage} from './utils/image';
 import {DetailsTitle} from './components/details-title';
+import {DetailsLine} from './components/details-line';
 import {Cart} from './components/cart';
 
 //
@@ -21,13 +21,9 @@ const SPEC_2 = faker.vehicle.vin();
 const SPEC_3 = faker.commerce.product();
 const SPEC_4 = faker.datatype.float({min: 0.1, max: 10, precision: 0.1});
 
-//
+type Props = NativeStackScreenProps<RootStackParamList, 'ItemScreen'>;
 
-export const Item = () => {
-  const nav =
-    useNavigation<
-      NativeStackNavigationProp<RootStackParamList, 'ListScreen'>
-    >();
+const Item: React.FC<Props> = () => {
   const {params} = useRoute<RouteProp<RootStackParamList, 'ItemScreen'>>();
 
   const [quantity, setQuantity] = useState<number>(5);
@@ -36,24 +32,17 @@ export const Item = () => {
     return <Typography>Loading ...</Typography>;
   }
 
-  nav.setOptions({
-    title: params.name,
-  });
-
-  //
-  //
-
   return (
     <React.Fragment>
       <ScrollView>
-        <Container>
+        <Container key={'ImageContainer'}>
           <ItemImage
             source={{uri: getImage(900, params.id)}}
             size={Dimensions.get('screen').width * 0.9}
           />
         </Container>
 
-        <Container>
+        <Container key={'NameContainer'}>
           <Typography fontSize={18} weight="semiBold">
             {params.name}
           </Typography>
@@ -69,11 +58,11 @@ export const Item = () => {
           )}
         </Container>
 
-        <Container>
+        <Container key={'DescriptionContainer'}>
           <Typography>{params.description}</Typography>
         </Container>
 
-        <Container>
+        <Container key={'DetailsContainer'}>
           <DetailsTitle>Details</DetailsTitle>
           <DetailsLine label="Brand">{params.brand}</DetailsLine>
           <DetailsLine label="Color">{SPEC_1}</DetailsLine>
@@ -82,9 +71,7 @@ export const Item = () => {
           <Typography weight="medium" />
           <Typography weight="medium">Specifications</Typography>
           <DetailsLine label="Type">{SPEC_3}</DetailsLine>
-          <DetailsLine label="Weight">
-            {SPEC_4} kg
-          </DetailsLine>
+          <DetailsLine label="Weight">{`${SPEC_4} kg`}</DetailsLine>
         </Container>
       </ScrollView>
 
@@ -112,3 +99,5 @@ ItemDiscountedPrice.defaultProps = {
   fontSize: 18,
   color: 'black',
 };
+
+export default Item;

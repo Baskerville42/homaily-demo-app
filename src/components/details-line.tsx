@@ -1,4 +1,5 @@
 import React from 'react';
+import {StyleSheet} from 'react-native';
 import styled from '@emotion/native';
 
 import {Typography} from './typography';
@@ -6,13 +7,15 @@ import {Typography} from './typography';
 //
 //
 
-export const DetailsLine: React.FC<{
-  label?: React.ReactNode;
+type Props = {
+  label: string;
   children: string;
-}> = ({label, children}) => {
+};
+
+export const DetailsLine: React.FC<Props> = ({label, children}) => {
   return (
     <DetailsLineContainer>
-      <Typography fontSize={14} style={{marginRight: 16}} weight="medium">
+      <Typography fontSize={14} style={styles.label} weight="medium">
         {label}
       </Typography>
 
@@ -37,3 +40,9 @@ const DetailsLineContent = styled(Typography)({
 DetailsLineContent.defaultProps = {
   fontSize: 14,
 };
+
+const styles = StyleSheet.create({
+  label: {
+    marginRight: 16,
+  },
+});

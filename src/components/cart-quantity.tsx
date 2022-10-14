@@ -1,4 +1,5 @@
 import React, {Dispatch, SetStateAction} from 'react';
+import {StyleSheet} from 'react-native';
 import styled from '@emotion/native';
 
 import {Typography} from './typography';
@@ -6,26 +7,25 @@ import {Typography} from './typography';
 //
 //
 
-export const CartQuantity: React.FC<{
-  quantity: any;
+type Props = {
+  quantity: number;
   update: Dispatch<SetStateAction<number>>;
-}> = ({quantity, update}) => {
+};
+
+export const CartQuantity: React.FC<Props> = ({quantity, update}) => {
+  const handleAddQuantity = () => update(quantity + 1);
+  const handleReduceQuantity = () => update(quantity - 1);
+
   return (
     <QuantityContainer>
       <React.Fragment>
-        <QuantityButton
-          onPress={() => update(quantity + 1)}
-          underlayColor="#EDEBF2">
+        <QuantityButton onPress={handleAddQuantity} underlayColor="#EDEBF2">
           <Typography color="#522973">+</Typography>
         </QuantityButton>
 
-        <Typography style={{textAlign: 'center', flex: 1}}>
-          {quantity}
-        </Typography>
+        <Typography style={styles.quantity}>{quantity}</Typography>
 
-        <QuantityButton
-          onPress={() => update(quantity + 1)}
-          underlayColor="#EDEBF2">
+        <QuantityButton onPress={handleReduceQuantity} underlayColor="#EDEBF2">
           <Typography color="#522973">-</Typography>
         </QuantityButton>
       </React.Fragment>
@@ -55,4 +55,11 @@ const QuantityContainer = styled.TouchableHighlight({
   maxHeight: 51,
   alignItems: 'center',
   flexDirection: 'row',
+});
+
+const styles = StyleSheet.create({
+  quantity: {
+    textAlign: 'center',
+    flex: 1,
+  },
 });
