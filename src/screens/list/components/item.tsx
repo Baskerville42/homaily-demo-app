@@ -21,9 +21,7 @@ const thumbnailSize = 600;
 
 const ListItem: React.FC<Props> = ({item}) => {
   const nav =
-    useNavigation<
-      NativeStackNavigationProp<RootStackParamList, 'ListScreen'>
-    >();
+    useNavigation<NativeStackNavigationProp<RootStackParamList, 'ListScreen'>>();
 
   const handleNavigation = () => nav.navigate('ItemScreen', item);
 
@@ -35,19 +33,19 @@ const ListItem: React.FC<Props> = ({item}) => {
       />
 
       <View style={styles.flex}>
-        <Typography weight="medium">{item.name}</Typography>
+        <Typography weight='medium'>{item.name}</Typography>
 
 
-          <Typography color="#DA2121">
-            {item.salePrice && (
-              <Typography style={item.salePrice && styles.discounted}>
-                SAR {item.price}
-              </Typography>
-            )}
-            {'  '}SAR {item.salePrice}
-          </Typography>
+        <Typography>
+          {item.salePrice && (
+            <Typography style={item.salePrice && styles.discounted}>
+              SAR {item.price}
+            </Typography>
+          )}
+          {'  '}SAR {item.salePrice}
+        </Typography>
 
-        <Typography fontSize={14} color="#545454">
+        <Typography fontSize={14} color='#545454'>
           Brand: {item.name}
         </Typography>
       </View>
@@ -80,6 +78,7 @@ const styles = StyleSheet.create({
   },
   discounted: {
     textDecorationLine: 'line-through',
+    color: '#DA2121',
   },
   sale: {
     color: '#DA2121',
