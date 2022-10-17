@@ -37,14 +37,15 @@ const ListItem: React.FC<Props> = ({item}) => {
       <View style={styles.flex}>
         <Typography weight="medium">{item.name}</Typography>
 
-        {item.salePrice && (
+
           <Typography color="#DA2121">
-            <Typography style={item.salePrice && styles.discounted}>
-              SAR {item.price}
-            </Typography>
+            {item.salePrice && (
+              <Typography style={item.salePrice && styles.discounted}>
+                SAR {item.price}
+              </Typography>
+            )}
             {'  '}SAR {item.salePrice}
           </Typography>
-        )}
 
         <Typography fontSize={14} color="#545454">
           Brand: {item.name}
